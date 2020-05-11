@@ -1,0 +1,48 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+// 计算node的数量，然后对k取余，然后快慢指针
+int getListSize(struct ListNode *head)
+{
+    int num = 0;
+    while (head != NULL) {
+        ++num;
+        head = head->next;
+    }
+    return num;
+}
+
+struct ListNode* rotateRight(struct ListNode* head, int k){
+    if (head == NULL) {
+        return head;
+    }
+
+    k = k % getListSize(head);
+    if (k == 0) {
+        return head;
+    }
+
+    struct ListNode *lhs = head;
+    struct ListNode *rhs = head;
+    while (k-- > 0) {
+        rhs = rhs->next;
+    }
+
+    while (rhs->next != NULL) {
+        rhs = rhs->next;
+        lhs = lhs->next;
+    }
+
+    struct ListNode *tmp1 = lhs->next;
+    lhs->next = NULL;
+    
+    struct ListNode *tmp2 = head;
+    head = tmp1;
+    rhs->next = tmp2;
+    return head;
+}

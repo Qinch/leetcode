@@ -1,0 +1,40 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+// 链表快排
+void quickSort(struct ListNode *head, struct ListNode *tail)
+{
+    if (head == tail) {
+        return;
+    }
+
+    struct ListNode *rhs = head->next;
+    struct ListNode *lhs = head;
+    int value = head->val;
+    while (rhs != tail) {
+        if (value > rhs->val) {
+            lhs = lhs->next;
+            int tmp = lhs->val;
+            lhs->val = rhs->val;
+            rhs->val = tmp;
+        }
+        
+        rhs = rhs->next;
+    }
+
+    head->val = lhs->val;
+    lhs->val = value;
+
+    quickSort(head, lhs);
+    quickSort(lhs->next, tail);
+}
+
+struct ListNode* sortList(struct ListNode* head){
+    quickSort(head, NULL);
+    return head;
+}
